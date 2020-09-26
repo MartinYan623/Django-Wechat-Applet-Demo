@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from django_redis import get_redis_connection
 from .validators import phone_validator
+from .. import models
+from rest_framework.serializers import ModelSerializer
 
 class MessageSerializer(serializers.Serializer):
     phone = serializers.CharField(label='手机号', validators=[phone_validator])
@@ -27,3 +29,9 @@ class LoginSerializer(serializers.Serializer):
             raise ValidationError('验证码错误')
 
         return value
+
+
+class TopicSerializer(ModelSerializer):
+    class Meta:
+        model = models.Topic
+        fields = "__all__"

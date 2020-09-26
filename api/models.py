@@ -8,6 +8,13 @@ blank=False、null=True。这个设定不允许表单中该字段为空，但是
 """
 
 
+# 用户信息
 class UserInfo(models.Model):
     phone = models.CharField(verbose_name='手机号', max_length=11, unique=True)
     token = models.CharField(verbose_name='用户TOKEN', max_length=64, null=True, blank=True)
+
+
+# 话题
+class Topic(models.Model):
+    title = models.CharField(verbose_name='话题', max_length=32)
+    count = models.PositiveIntegerField(verbose_name='关注度', default=0)

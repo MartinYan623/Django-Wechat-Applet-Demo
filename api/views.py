@@ -1,11 +1,12 @@
-from django.shortcuts import render
+import random
+import uuid
+
+from django_redis import get_redis_connection
+from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-import uuid
-import random
-from django_redis import get_redis_connection
 from api import models
-from .serializer.account import MessageSerializer, LoginSerializer
+from .serializer.account import MessageSerializer, LoginSerializer, TopicSerializer
 
 
 class MessageView(APIView):
@@ -42,3 +43,9 @@ class LoginView(APIView):
         user_object.token = str(uuid.uuid4())
         user_object.save()
         return Response({"status": True, "data": {"token": user_object.token, 'phone': phone}})
+
+
+class TopicView(ListAPIView):
+    serializer_class = TopicSerializer
+    queryset = models.Topic.objects.all().order_by('-count')
+
